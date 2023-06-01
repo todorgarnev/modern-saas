@@ -36,9 +36,9 @@
 			<p class="mt-3 text-sm">Change the personal details associated with your account</p>
 			<!-- Personal Details Form -->
 			<form class="mt-8">
-				<label for="full_name" class="space-y-2">
+				<label for="fullName" class="space-y-2">
 					<span>Name</span>
-					<input type="text" name="full_name" />
+					<input type="text" name="fullName" />
 				</label>
 				<Button type="submit" class="mt-4">Update Details</Button>
 			</form>
