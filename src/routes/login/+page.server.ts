@@ -9,7 +9,13 @@ const loginUserSchema = z.object({
 	password: z.string().min(1, "Please enter a password")
 });
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
+	const session = await event.locals.getSession();
+
+	if (session) {
+		throw redirect(302, "/");
+	}
+
 	return {
 		form: superValidate(loginUserSchema)
 	};
