@@ -15,7 +15,6 @@
 	} from "flowbite-svelte";
 	import type { LayoutData } from "./$types";
 	import "../app.css";
-	import { enhance } from "$app/forms";
 
 	const navigation = [
 		{ label: "Home", href: "/" },
