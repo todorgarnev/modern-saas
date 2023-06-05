@@ -21,7 +21,7 @@ export const load: PageServerLoad = async (event) => {
 			throw error(500, "Error fetching contacts, please  try again later.");
 		}
 
-		return contacts;
+		return contacts ?? [];
 	};
 
 	return {
