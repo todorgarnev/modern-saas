@@ -3,9 +3,9 @@
 	import { superForm } from "sveltekit-superforms/client";
 	import UserIcon from "$lib/components/icons/UserIcon.svelte";
 	import type { Validation } from "sveltekit-superforms/index";
-	import type { ProfileSchema } from "$lib/schemas";
+	import type { ProfileSchemaType } from "$lib/schemas";
 
-	export let data: Validation<ProfileSchema>;
+	export let data: Validation<ProfileSchemaType>;
 
 	const { form, errors, enhance } = superForm(data);
 </script>

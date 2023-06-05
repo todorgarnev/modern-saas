@@ -3,9 +3,9 @@
 	import { superForm } from "sveltekit-superforms/client";
 	import LockIcon from "$lib/components/icons/LockIcon.svelte";
 	import type { Validation } from "sveltekit-superforms/index";
-	import type { PasswordSchema } from "$lib/schemas";
+	import type { PasswordSchemaType } from "$lib/schemas";
 
-	export let data: Validation<PasswordSchema>;
+	export let data: Validation<PasswordSchemaType>;
 
 	const { form, errors, enhance } = superForm(data, { resetForm: true });
 </script>

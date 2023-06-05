@@ -3,9 +3,9 @@
 	import { superForm } from "sveltekit-superforms/client";
 	import EnvelopeIcon from "$lib/components/icons/EnvelopeIcon.svelte";
 	import type { Validation } from "sveltekit-superforms/index";
-	import type { EmailSchema } from "$lib/schemas";
+	import type { EmailSchemaType } from "$lib/schemas";
 
-	export let data: Validation<EmailSchema>;
+	export let data: Validation<EmailSchemaType>;
 
 	const { form, errors, enhance } = superForm(data);
 </script>
