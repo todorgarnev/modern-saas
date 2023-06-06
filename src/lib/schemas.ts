@@ -34,3 +34,9 @@ export const createContactSchema = z
 	}, "At least one field must be filled out");
 
 export type CreateContactSchemaType = typeof createContactSchema;
+
+export const deleteContactSchema = z.object({
+  id: z.string(),
+});
+
+export type DeleteContactSchemaType = typeof deleteContactSchema;

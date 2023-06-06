@@ -11,12 +11,20 @@
 		TableHead,
 		TableHeadCell
 	} from "flowbite-svelte";
-	import type { PageData } from "./$types";
 	import CreateContactModal from "./CreateContactModal.svelte";
+	import DeleteContactModal from "./DeleteContactModal.svelte";
+	import type { PageData } from "./$types";
 
 	export let data: PageData;
 
 	let createContactOpen = false;
+	let deleteContactOpen = false;
+	let contactToDelete: string = "";
+
+	const handleContactDelete = (contactId: string) => {
+		contactToDelete = contactId;
+		deleteContactOpen = true;
+	}
 </script>
 
 <div class="py-20">
@@ -49,8 +57,8 @@
 						<MenuButton class="dots-menu dark:text-white" vertical name="Contact Menu" />
 
 						<Dropdown placement="left-start">
-							<DropdownItem>Edit</DropdownItem>
-							<DropdownItem slot="footer">Delete</DropdownItem>
+							<DropdownItem href="contacts/{contact.id}">Edit</DropdownItem>
+							<DropdownItem slot="footer" on:click={() => handleContactDelete(contact.id)}>Delete</DropdownItem>
 						</Dropdown>
 					</TableBodyCell>
 				</TableBodyRow>
@@ -60,3 +68,4 @@
 </div>
 
 <CreateContactModal bind:open={createContactOpen} data={data.createContactForm} />
+<DeleteContactModal bind:open={deleteContactOpen} data={data.deleteContactForm} contactId={contactToDelete} />
