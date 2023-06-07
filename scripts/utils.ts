@@ -32,7 +32,7 @@ export async function createUser(user: CreateUser) {
 		password: user.password,
 		options: {
 			data: {
-				full_name: user.full_name ?? "Test User"
+				full_name: user.fullName ?? "Test User"
 			}
 		}
 	});
