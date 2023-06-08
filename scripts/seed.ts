@@ -1,12 +1,20 @@
-import { clearSupabaseData, createContact, createUser, startSupabase } from "./utils";
+import {
+	clearSupabaseData,
+	createContact,
+	createUser,
+	startSupabase,
+	syncStripeProducts
+} from "./utils";
 
-async function seed() {
+const seed = async () => {
 	try {
 		await startSupabase();
 		await clearSupabaseData();
+		await syncStripeProducts();
+
 		const user = await createUser({
 			email: "test@abv.bg",
-			full_name: "Test user",
+			fullName: "Test user",
 			password: "password"
 		});
 
@@ -18,6 +26,6 @@ async function seed() {
 	}
 
 	process.exit();
-}
+};
 
 seed();
