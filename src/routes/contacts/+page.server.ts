@@ -2,10 +2,10 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms/server";
 import { supabaseAdmin } from "$lib/server/supabase-admin";
 import { createContactSchema, deleteContactSchema } from "$lib/schemas";
-import type { Actions, PageServerLoad } from "./$types";
 import { getSubscriptionTier } from "$lib/server/subscriptions";
 import { getContactsCount } from "$lib/server/contacts";
 import { hasReachedMaxContacts } from "$lib/helpers";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
@@ -34,7 +34,9 @@ export const load: PageServerLoad = async (event) => {
 		contacts: getContacts(),
 		deleteContactForm: superValidate(deleteContactSchema, {
 			id: "delete"
-		})
+		}),
+		tier: getSubscriptionTier(session.user.id),
+		contactsCount: getContactsCount(session.user.id)
 	};
 };
 

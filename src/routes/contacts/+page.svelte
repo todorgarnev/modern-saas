@@ -11,6 +11,8 @@
 		TableHead,
 		TableHeadCell
 	} from "flowbite-svelte";
+	import { hasReachedMaxContacts } from "$lib/helpers";
+	import UpgradePlanModal from "$lib/components/UpgradePlanModal.svelte";
 	import CreateContactModal from "./CreateContactModal.svelte";
 	import DeleteContactModal from "./DeleteContactModal.svelte";
 	import type { PageData } from "./$types";
@@ -20,17 +22,29 @@
 	let createContactOpen = false;
 	let deleteContactOpen = false;
 	let contactToDelete: string = "";
+	let upgradeModalOpen: boolean = false;
 
 	const handleContactDelete = (contactId: string) => {
 		contactToDelete = contactId;
 		deleteContactOpen = true;
+	};
+
+	const handleContactCreate = () => {
+		if (reachedMaxContacts) {
+			upgradeModalOpen = true;
+		} else {
+			createContactOpen = true;
+		}
 	}
+
+	$: ({ contactsCount, tier } = data);
+	$: reachedMaxContacts = hasReachedMaxContacts(tier, contactsCount);
 </script>
 
 <div class="py-20">
 	<div class="flex w-full items-center justify-between pb-6">
 		<h1 class="text-3xl">Contacts</h1>
-		<Button size="sm" on:click={() => (createContactOpen = true)}>New Contact</Button>
+		<Button size="sm" on:click={() => handleContactCreate()}>New Contact</Button>
 	</div>
 
 	<Table shadow divClass="min-h-full">
@@ -58,7 +72,8 @@
 
 						<Dropdown placement="left-start">
 							<DropdownItem href="contacts/{contact.id}">Edit</DropdownItem>
-							<DropdownItem slot="footer" on:click={() => handleContactDelete(contact.id)}>Delete</DropdownItem>
+							<DropdownItem slot="footer" on:click={() => handleContactDelete(contact.id)}
+								>Delete</DropdownItem>
 						</Dropdown>
 					</TableBodyCell>
 				</TableBodyRow>
@@ -68,4 +83,13 @@
 </div>
 
 <CreateContactModal bind:open={createContactOpen} data={data.createContactForm} />
-<DeleteContactModal bind:open={deleteContactOpen} data={data.deleteContactForm} contactId={contactToDelete} />
+
+<DeleteContactModal
+	bind:open={deleteContactOpen}
+	data={data.deleteContactForm}
+	contactId={contactToDelete} />
+
+<UpgradePlanModal
+	bind:open={upgradeModalOpen}
+	{tier}
+	message="You have reached the max contacts for your plan. Upgrade to add more contacts." />
