@@ -125,3 +125,14 @@ const priceSchema = z.object({
 });
 
 export const priceListSchema = z.array(priceSchema);
+
+
+export const subscriptionTierSchema = z.enum(productNames);
+
+export type SubscriptionTierType = z.infer<typeof subscriptionTierSchema>;
+
+export const subscriptionProductSchema = z.object({
+	product: z.object({
+		name: subscriptionTierSchema
+	})
+});

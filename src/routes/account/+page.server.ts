@@ -1,5 +1,6 @@
 import { error, redirect, type Actions, fail } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms/server";
+import { getSubscriptionTier } from "$lib/server/subscriptions";
 import { emailSchema, passwordSchema, profileSchema } from "$lib/schemas";
 import type { PageServerLoad } from "./$types";
 
@@ -32,7 +33,8 @@ export const load: PageServerLoad = async (event) => {
 			id: "profile"
 		}),
 		emailForm: superValidate({ email: session.user.email }, emailSchema, { id: "email" }),
-		passwordForm: superValidate(passwordSchema, { id: "password" })
+		passwordForm: superValidate(passwordSchema, { id: "password" }),
+		tier: getSubscriptionTier(session.user.id)
 	};
 };
 

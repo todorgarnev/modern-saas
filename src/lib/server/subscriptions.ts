@@ -1,4 +1,8 @@
-import { stripeSubscriptionSchema } from "$lib/schemas";
+import {
+	stripeSubscriptionSchema,
+	subscriptionProductSchema,
+	type SubscriptionTierType
+} from "$lib/schemas";
 import { stripe } from "./stripe";
 import { supabaseAdmin } from "./supabase-admin";
 import { getCustomerRecord } from "./customers";
@@ -133,4 +137,25 @@ export const createCheckoutSession = async (userId: string, priceId: string) => 
 	}
 
 	return checkoutSession.url;
+};
+
+export const getSubscriptionTier = async (userId: string): Promise<SubscriptionTierType> => {
+	const { error: subscriptionError, data: subscription } = await supabaseAdmin
+		.from("billing_subscriptions")
+		.select("product:product_id(name)")
+		.eq("user_id", userId)
+		.in("status", ["active", "trialing"])
+		.limit(1)
+		.maybeSingle();
+
+	if (subscriptionError || !subscription) {
+		return "Free";
+	}
+
+	try {
+		const tier = subscriptionProductSchema.parse(subscription);
+		return tier.product.name;
+	} catch (e) {
+		return "Free";
+	}
 };
