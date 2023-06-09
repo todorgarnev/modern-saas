@@ -48,7 +48,6 @@ export const POST: RequestHandler = async (event) => {
 			case "customer.subscription.updated":
 			case "customer.subscription.deleted":
 				await updateSubscriptionRecord(stripeEvent.data.object);
-				console.log("Customer Subscription deleted", stripeEvent);
 				break;
 			case "customer.subscription.trial_will_end":
 				console.log("Customer Subscription trial will end", stripeEvent);
