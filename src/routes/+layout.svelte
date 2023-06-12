@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { Toaster } from "svelte-french-toast";
 	import { invalidate } from "$app/navigation";
 	import { page } from "$app/stores";
 	import {
@@ -19,7 +20,7 @@
 	const navigation = [
 		{ label: "Home", href: "/" },
 		{ label: "Pricing", href: "/pricing" },
-		{ label: "Contacts", href: "/contacts" },
+		{ label: "Contacts", href: "/contacts" }
 	];
 
 	export let data: LayoutData;
@@ -42,6 +43,8 @@
 <svelte:head>
 	<title>Contactly</title>
 </svelte:head>
+
+<Toaster />
 
 <div class="flex h-full flex-col">
 	<Navbar let:hidden let:toggle>

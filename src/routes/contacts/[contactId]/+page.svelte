@@ -1,63 +1,81 @@
 <script lang="ts">
-  import { Button, Card } from "flowbite-svelte";
-  import { superForm } from "sveltekit-superforms/client";
-  import type { PageData } from "./$types";
+	import { Button, Card } from "flowbite-svelte";
+	import { superForm } from "sveltekit-superforms/client";
+	import toast from "svelte-french-toast";
+	import type { PageData } from "./$types";
 
-  export let data: PageData;
+	export let data: PageData;
 
-  const { form, errors, enhance } = superForm(data.updateContactForm);
+	const { form, errors, enhance } = superForm(data.updateContactForm, {
+		onResult: ({ result }) => {
+			switch (result.type) {
+				case "success":
+					toast.success("Successfully updated contact!");
+					break;
+				case "error":
+					toast.error("Error updating contact.");
+					break;
+				case "failure":
+					toast.error("Validation error, check the details and try again!");
+					break;
+				default:
+					return;
+			}
+			return;
+		}
+	});
 </script>
 
 <div class="py-20">
-  <div class="flex w-full flex-col items-center">
-    <div class="max-w-2xl text-center">
-      <h1 class="text-4xl font-semibold">Edit Contact</h1>
-    </div>
+	<div class="flex w-full flex-col items-center">
+		<div class="max-w-2xl text-center">
+			<h1 class="text-4xl font-semibold">Edit Contact</h1>
+		</div>
 
-    <Card class="mt-6 w-full" padding="xl" size="md">
-      <form method="POST" action="?/updateContact" class="flex flex-col space-y-6" use:enhance>
-        <label class="space-y-2" for="name">
-          <span>Name</span>
+		<Card class="mt-6 w-full" padding="xl" size="md">
+			<form method="POST" action="?/updateContact" class="flex flex-col space-y-6" use:enhance>
+				<label class="space-y-2" for="name">
+					<span>Name</span>
 
-          <input type="text" name="name" bind:value={$form.name} />
+					<input type="text" name="name" bind:value={$form.name} />
 
-          {#if $errors.name}
-            <span class="block text-red-600 dark:text-red-500">{$errors.name}</span>
-          {/if}
-        </label>
+					{#if $errors.name}
+						<span class="block text-red-600 dark:text-red-500">{$errors.name}</span>
+					{/if}
+				</label>
 
-        <label class="space-y-2" for="email">
-          <span>Email</span>
+				<label class="space-y-2" for="email">
+					<span>Email</span>
 
-          <input type="email" name="email" bind:value={$form.email} />
+					<input type="email" name="email" bind:value={$form.email} />
 
-          {#if $errors.email}
-            <span class="block text-red-600 dark:text-red-500">{$errors.email}</span>
-          {/if}
-        </label>
+					{#if $errors.email}
+						<span class="block text-red-600 dark:text-red-500">{$errors.email}</span>
+					{/if}
+				</label>
 
-        <label class="space-y-2" for="phone">
-          <span>Phone</span>
+				<label class="space-y-2" for="phone">
+					<span>Phone</span>
 
-          <input type="text" name="phone" bind:value={$form.phone} />
+					<input type="text" name="phone" bind:value={$form.phone} />
 
-          {#if $errors.phone}
-            <span class="block text-red-600 dark:text-red-500">{$errors.phone}</span>
-          {/if}
-        </label>
+					{#if $errors.phone}
+						<span class="block text-red-600 dark:text-red-500">{$errors.phone}</span>
+					{/if}
+				</label>
 
-        <label class="space-y-2" for="company">
-          <span>Company</span>
+				<label class="space-y-2" for="company">
+					<span>Company</span>
 
-          <input type="text" name="company" bind:value={$form.company} />
+					<input type="text" name="company" bind:value={$form.company} />
 
-          {#if $errors.company}
-            <span class="block text-red-600 dark:text-red-500">{$errors.company}</span>
-          {/if}
-        </label>
+					{#if $errors.company}
+						<span class="block text-red-600 dark:text-red-500">{$errors.company}</span>
+					{/if}
+				</label>
 
-        <Button type="submit" class="w-full">Save Changes</Button>
-      </form>
-    </Card>
-  </div>
+				<Button type="submit" class="w-full">Save Changes</Button>
+			</form>
+		</Card>
+	</div>
 </div>
