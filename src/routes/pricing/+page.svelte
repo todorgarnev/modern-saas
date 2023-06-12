@@ -9,7 +9,6 @@
 
 <div class="py-20">
 	<div class="mx-auto mb-10 max-w-2xl text-center">
-		<h1 class="mb-2 text-base font-semibold text-sky-500 dark:text-sky-400">Pricing</h1>
 		<p class="mb-6 text-5xl font-bold">Choose what works for you</p>
 		<p class="text-lg">
 			Contactly offers flexible pricing plans to cater to the unique needs of your business. Choose

@@ -2,13 +2,14 @@ import { error, redirect, type Actions, fail } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms/server";
 import { getSubscriptionTier } from "$lib/server/subscriptions";
 import { emailSchema, passwordSchema, profileSchema } from "$lib/schemas";
+import { handleLoginRedirect } from "$lib/helpers";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 
 	if (!session) {
-		throw redirect(302, "/login");
+		throw redirect(302, handleLoginRedirect(event.url));
 	}
 
 	const getUserProfile = async () => {

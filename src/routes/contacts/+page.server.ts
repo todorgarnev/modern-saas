@@ -4,14 +4,14 @@ import { supabaseAdmin } from "$lib/server/supabase-admin";
 import { createContactSchema, deleteContactSchema } from "$lib/schemas";
 import { getSubscriptionTier } from "$lib/server/subscriptions";
 import { getContactsCount } from "$lib/server/contacts";
-import { hasReachedMaxContacts } from "$lib/helpers";
+import { handleLoginRedirect, hasReachedMaxContacts } from "$lib/helpers";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 
 	if (!session) {
-		throw redirect(302, "/login");
+		throw redirect(302, handleLoginRedirect(event.url));
 	}
 
 	const getContacts = async () => {

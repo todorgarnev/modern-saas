@@ -8,3 +8,8 @@ export const hasReachedMaxContacts = (tier: SubscriptionTierType, contactsCount:
 export const getUpgradeURL = (tier: SubscriptionTierType) => {
 	return tier === "Free" ? "/pricing" : "/account/billing";
 };
+
+export const handleLoginRedirect = (eventUrl: URL) => {
+	const redirectTo = eventUrl.pathname + eventUrl.search;
+	return `/login?redirectTo=${redirectTo}`;
+};

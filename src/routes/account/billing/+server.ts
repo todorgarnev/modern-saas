@@ -2,13 +2,14 @@ import { error, redirect } from "@sveltejs/kit";
 import { stripe } from "$lib/server/stripe";
 import { getCustomerRecord } from "$lib/server/customers";
 import { ENV } from "$lib/server/env";
+import { handleLoginRedirect } from "$lib/helpers";
 import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async (event) => {
 	const session = await event.locals.getSession();
 
 	if (!session) {
-		throw redirect(302, "/login");
+		throw redirect(302, handleLoginRedirect(event.url));
 	}
 
 	const customer = await getCustomerRecord(session.user.id);
